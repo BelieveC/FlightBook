@@ -1,0 +1,4 @@
+export const INITIAL_LOAD = 'INITIAL_LOAD'
+export const FETCH_NIFTY_INDEX = 'FETCH_NIFTY_INDEX'
+export const ADD_NIFTY_INDEX = 'ADD_NIFTY_INDEX'
+export const ADD_ERROR = 'ADD_ERROR'
