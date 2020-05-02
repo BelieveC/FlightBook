@@ -11,6 +11,7 @@
     "babel-runtime": "^6.26.0",
     "env-cmd": "^10.1.0",
     "keymirror": "^0.1.1",
+    "lodash": "^4.17.15",
     "moment": "2.24.0",
     "nse-historical-data": "^2.0.1",
     "prop-types": "15.6.0",
