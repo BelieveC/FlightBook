@@ -8,12 +8,10 @@
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.2.0",
     "@material-ui/pickers": "^3.2.2",
-    "ajax": "^0.0.4",
     "babel-runtime": "^6.26.0",
     "env-cmd": "^10.1.0",
     "keymirror": "^0.1.1",
     "moment": "2.24.0",
-    "notistack": "^0.9.7",
     "nse-historical-data": "^2.0.1",
     "prop-types": "15.6.0",
     "react": "^16.8.6",
@@ -23,7 +21,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.5",
-    "sweetalert": "^2.1.2"
+    "request": "^2.88.2",
+    "superagent": "^4.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

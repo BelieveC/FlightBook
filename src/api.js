@@ -1,29 +1,13 @@
-import Ajax from 'ajax'
-const nseHistoricalData = require("nse-historical-data");
+import Ajax from './utils/Ajax'
 
 const Api = {
-  // fetchNiftyIndices() {
-  //   return Ajax.get('http://www1.nseindia.com/live_market/dynaContent/live_watch/stock_watch/liveIndexWatchData.json')
-  //     .then(response => ({ response }))
-  //     .catch(error => ({ error }))
-  // }
-  fetchNiftyIndices(date) {
-    let options = {
-      date: {
-        start: "2020-04-16",
-        end: "2020-04-17"
-      }
-    }
-    nseHistoricalData.default(options).then(function(data) {
-        console.log(JSON.stringify(data));
-        return data;
-      }).catch(function(err) {
-        console.error(err);
-        return err;
-      });
-    // return Ajax.get('http://www1.nseindia.com/live_market/dynaContent/live_watch/stock_watch/liveIndexWatchData.json')
-    //   .then(response => ({ response }))
-    //   .catch(error => ({ error }))
+  fetchNiftyIndices() {
+    // return Ajax.get('https://finnhub.io/api/v1/quote?symbol=NIFTY.NS&token=bq0b7tvrh5rddd65fppg')
+    //                 .then(response => ({ response }))
+    //                 .catch(error => ({ error }))
+    return Ajax.get('https://www.nseindia.com/api/allIndices')
+                    .then(response => ({ response }))
+                    .catch(error => ({ error }))
   }
 }
 
