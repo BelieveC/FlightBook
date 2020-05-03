@@ -2,6 +2,7 @@ import 'date-fns';
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Flight from '@material-ui/icons/Flight';
+import Heart from '@material-ui/icons/Favorite';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,7 +21,7 @@ import { ADD_CURRENT_SELECTED_DATE } from '../constants'
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         Flight Book
       </Link>{' '}
       {new Date().getFullYear()}
@@ -32,6 +33,9 @@ import { ADD_CURRENT_SELECTED_DATE } from '../constants'
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
+  },
+  footerIcon: {
+    fontSize: '1.0rem'
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
@@ -75,14 +79,13 @@ export default function Main() {
         </Toolbar>
       </AppBar>
       <main>
-        {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Flight Book
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Trading Manual using Secrets of Pivot Boss
+              Nifty Trading Manual using Secrets of Pivot Boss.
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
@@ -108,23 +111,17 @@ export default function Main() {
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
             <FlightCard/>
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Flight Book
-        </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Made with Heart by BelieveC
+          Made with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
         </Typography>
         <Copyright />
       </footer>
-      {/* End footer */}
     </React.Fragment>
   );
 }
