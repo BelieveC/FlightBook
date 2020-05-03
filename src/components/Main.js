@@ -76,6 +76,8 @@ export default function Main() {
     dispatchDateChange(formatedDate)
   }
 
+  const today = new Date()
+
   return (
     <div className={classes.root}>
       <React.Fragment>
@@ -102,6 +104,7 @@ export default function Main() {
                   <Grid item>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
+                      maxDate={today}
                       disableToolbar
                       variant="inline"
                       format="MM/dd/yyyy"
