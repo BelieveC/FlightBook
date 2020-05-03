@@ -38,7 +38,7 @@ const createRows = (previousTradingDay) => {
   ]
 }
 
-export default function CamarillaRange({ index, previousTradingDay }) {
+export default function CamarillaRange({ previousTradingDay }) {
   const classes = useStyles();
 
   const rows = createRows(previousTradingDay[1])

@@ -14,7 +14,7 @@ const createRows = (previousTradingDay) => {
   ]
 }
 
-export default function PreviousDay({ index, previousTradingDay }) {
+export default function PreviousDay({ previousTradingDay }) {
   const classes = useStyles();
 
   const rows = createRows(previousTradingDay[1])
@@ -22,7 +22,7 @@ export default function PreviousDay({ index, previousTradingDay }) {
 
   return (
     <>
-    <div className={classes.headerStyle}>{`Previous Range for ${previousDate.toDateString()}`} </div>
+    <div className={classes.headerStyle}>{`Nifty Range for ${previousDate.toDateString()}`} </div>
     <Table className={classes.table} aria-label="customized table">
       <TableHead>
         <TableRow>

@@ -46,7 +46,7 @@ const createRows = (previousTradingDay) => {
   ]
 }
 
-export default function PivotRange({ index, previousTradingDay}) {
+export default function PivotRange({ previousTradingDay }) {
   const classes = useStyles();
 
   const rows = createRows(previousTradingDay[1])
