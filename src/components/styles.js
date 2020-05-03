@@ -4,7 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 export const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    minWidth: '50%',
   },
   headerStyle: {
     paddingLeft: 10,
