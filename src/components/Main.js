@@ -93,8 +93,8 @@ export default function Main() {
               <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                 Flight Book
               </Typography>
-              <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                Nifty Trading Manual using Secrets of Pivot Boss.
+              <Typography variant="h6" align="center" color="textSecondary" paragraph>
+                Nifty Trading Manual using Secrets of Pivot Boss
               </Typography>
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justify="center">

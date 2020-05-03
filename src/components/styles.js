@@ -7,15 +7,13 @@ export const useStyles = makeStyles({
     minWidth: '100%',
   },
   headerStyle: {
-    paddingLeft: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    fontSize: 30,
+    padding: '2vh',
+    fontSize: '3vh',
     color: 'rgba(0, 0, 0, 0.54)'
   },
   messageStyle: {
     padding: '2vh',
-    fontSize: '3vh',
+    fontSize: '2vh',
     color: 'rgba(0, 0, 0, 0.54)'
   }
 });
@@ -24,10 +22,10 @@ export const StyledTableCell = withStyles(theme => ({
   head: {
     backgroundColor: '#3f51b5',
     color: theme.palette.common.white,
-    fontSize: 25
+    fontSize: '2vh'
   },
   body: {
-    fontSize: 20,
+    fontSize: '2vh',
   }
 }))(TableCell);
 
