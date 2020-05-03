@@ -76,7 +76,8 @@ export default function Main() {
     dispatchDateChange(formatedDate)
   }
 
-  const today = new Date()
+  var maxDate = new Date()
+  maxDate.setDate(maxDate.getDate() - 1);
 
   return (
     <div className={classes.root}>
@@ -104,7 +105,7 @@ export default function Main() {
                   <Grid item>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
-                      maxDate={today}
+                      maxDate={maxDate}
                       disableToolbar
                       variant="inline"
                       format="MM/dd/yyyy"
