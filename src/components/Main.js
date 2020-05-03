@@ -97,7 +97,7 @@ export default function Main() {
                 Flight Book
               </Typography>
               <Typography variant="h6" align="center" color="textSecondary" paragraph>
-                Nifty Trading Manual using Secrets of Pivot Boss
+                Nifty Trading Manual using Secrets of a Pivot Boss
               </Typography>
               <div className={classes.heroButtons}>
                 <Grid container spacing={2} justify="center">
