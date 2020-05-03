@@ -31,6 +31,13 @@ import { ADD_CURRENT_SELECTED_DATE } from '../constants'
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: theme.palette.background.paper
+  },
   icon: {
     marginRight: theme.spacing(2),
   },
@@ -50,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+    padding: theme.spacing(3, 2),
+    marginTop: 'auto'
   },
 }));
 
@@ -68,60 +76,63 @@ export default function Main() {
   }
 
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <Flight className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Flight Book
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main>
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+    <div className={classes.root}>
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="relative">
+          <Toolbar>
+            <Flight className={classes.icon} />
+            <Typography variant="h6" color="inherit" noWrap>
               Flight Book
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Nifty Trading Manual using Secrets of Pivot Boss.
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justify="center">
-                <Grid item>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Choose Trading Date"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider>
+          </Toolbar>
+        </AppBar>
+        <main>
+          <div className={classes.heroContent}>
+            <Container maxWidth="sm">
+              <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+                Flight Book
+              </Typography>
+              <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                Nifty Trading Manual using Secrets of Pivot Boss.
+              </Typography>
+              <div className={classes.heroButtons}>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      disableToolbar
+                      variant="inline"
+                      format="MM/dd/yyyy"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Choose Trading Date"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </div>
+              </div>
+            </Container>
+          </div>
+          <hr/>
+          <Container className={classes.cardGrid} maxWidth="md">
+            <Grid container spacing={4}>
+              <FlightCard/>
+            </Grid>
           </Container>
-        </div>
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            <FlightCard/>
-          </Grid>
-        </Container>
-      </main>
-      <footer className={classes.footer}>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Made with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
-        </Typography>
-        <Copyright />
-      </footer>
-    </React.Fragment>
+        </main>
+        <footer className={classes.footer}>
+          <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+            Made with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
+          </Typography>
+          <Copyright />
+        </footer>
+      </React.Fragment>
+    </div>
   );
 }

@@ -4,13 +4,18 @@ import TableRow from '@material-ui/core/TableRow';
 
 export const useStyles = makeStyles({
   table: {
-    minWidth: '50%',
+    minWidth: '100%',
   },
   headerStyle: {
     paddingLeft: 10,
     paddingTop: 10,
     paddingBottom: 10,
     fontSize: 30,
+    color: 'rgba(0, 0, 0, 0.54)'
+  },
+  messageStyle: {
+    padding: '2vh',
+    fontSize: '3vh',
     color: 'rgba(0, 0, 0, 0.54)'
   }
 });

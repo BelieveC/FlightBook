@@ -19,9 +19,9 @@ export default function FlightCard() {
   return (
     <TableContainer component={Paper}>
       { isEmpty(currentSelectedDate) ?
-          <div className={classes.headerStyle}>Select a Trading Date to generate Flight Book.</div>
+          <div className={classes.messageStyle}>Select a Trading Date to generate Flight Book.</div>
         : index === -1 ? 
-          <div className={classes.headerStyle}>Selected day is a Trading Holiday. Please select another date.</div>
+          <div className={classes.messageStyle}>Selected day is a Trading Holiday. Please select another date.</div>
         :
           <>
             <PreviousDay index={index} previousTradingDay={previousTradingDay}/>
