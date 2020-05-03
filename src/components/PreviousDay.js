@@ -3,7 +3,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { useSelector } from 'react-redux';
 import { useStyles, StyledTableRow, StyledTableCell } from './styles'
 
 const createRows = (previousTradingDay) => {
@@ -15,13 +14,12 @@ const createRows = (previousTradingDay) => {
   ]
 }
 
-export default function PreviousDay() {
+export default function PreviousDay({ index, previousTradingDay }) {
   const classes = useStyles();
 
-  const nifty50 = useSelector(state => state.nifty)
-  const previousTradingDay = nifty50[nifty50.length - 1]
   const rows = createRows(previousTradingDay[1])
   const previousDate = new Date(previousTradingDay[0])
+
   return (
     <>
     <div className={classes.headerStyle}>{`Previous Range for ${previousDate.toDateString()}`} </div>

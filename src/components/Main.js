@@ -1,6 +1,6 @@
+import 'date-fns';
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Flight from '@material-ui/icons/Flight';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import FlightCard from './FlightCard'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatDate }  from '../sagas'
+import { ADD_CURRENT_SELECTED_DATE } from '../constants'
 
  const Copyright = () => {
   return (
@@ -39,17 +44,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
@@ -58,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const selectedDate = useSelector(state => state.currentSelectedDate)
+
+  const dispatchDateChange = (payload) => dispatch({ type: ADD_CURRENT_SELECTED_DATE, payload})
+
+  const handleDateChange = (date) => {
+    const formatedDate = formatDate(date)
+    dispatchDateChange(formatedDate)
+  }
 
   return (
     <React.Fragment>
@@ -83,14 +87,21 @@ export default function Main() {
             <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary">
-                    Choose Nifty Index
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Choose Date
-                  </Button>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Choose Trading Date"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
                 </Grid>
               </Grid>
             </div>
