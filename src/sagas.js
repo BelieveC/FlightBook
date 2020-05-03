@@ -18,11 +18,12 @@ export const formatDate = (date) => {
 }
 
 const formatResult = (data) => {
-  var result = {}
+  var result = []
   for(var i = 0; i < data.t.length; i++)
   {
     var currentDate = new Date(data.t[i]*1000)
-    result[formatDate(currentDate)] = { 'open': data.o[i], 'high': data.h[i], 'close': data.c[i], 'low': data.l[i] }
+    result.push([formatDate(currentDate), { 'open': data.o[i], 'high': data.h[i], 'close': data.c[i], 'low': data.l[i] }])
+    // result[formatDate(currentDate)] = { 'open': data.o[i], 'high': data.h[i], 'close': data.c[i], 'low': data.l[i] }
   }
   return result
 }

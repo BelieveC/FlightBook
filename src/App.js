@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
 import { formatDate } from './sagas'
 import { isEmpty } from 'lodash'
+import Main from './components/Main'
 
 const App = () => {
   const sagaMiddleware = createSagaMiddleware()
@@ -35,7 +36,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div className="App">
-        <div>Hello World</div>
+        <Main/>
       </div>
     </Provider>
   )
