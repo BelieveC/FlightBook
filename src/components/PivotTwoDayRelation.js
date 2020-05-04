@@ -62,7 +62,7 @@ const createRows = (previousTradingDay, lastSecondTradingDay) => {
   if(cprWidth < 30){
     cprWidthType = 'Narrow(Breakout/Double Distribution Day)'
   }
-  else if(cprWidth > 30 && cprWidth < 80){
+  else if(cprWidth > 30 && cprWidth < 75){
     cprWidthType = 'Moderate(Typical, Exp Typical day)'
   }
   else{
@@ -70,7 +70,8 @@ const createRows = (previousTradingDay, lastSecondTradingDay) => {
   }
   return [
     { name: 'Expected Day', 'value': dayType },
-    { name: 'CPR width', 'value': cprWidthType }
+    { name: 'CPR width', 'value': cprWidthType },
+    { name: 'CPR width value', 'value': parseFloat(cprWidth).toFixed(2) }
   ]
 }
 

@@ -53,20 +53,21 @@ const createRows = (previousTradingDay, lastSecondTradingDay) => {
      dayType = 'Inside Value(Breakout)'
   }
 
-  var cprWidth = previousCamarillaValues.h3 - previousCamarillaValues.l3;
-  var cprWidthType = 'Not Defined'
-  if(cprWidth < 75){
-    cprWidthType = 'Narrow(Breakout/Double Distribution day)'
+  var camarillaWidth = previousCamarillaValues.h3 - previousCamarillaValues.l3;
+  var camarillaWidthType = 'Not Defined'
+  if(camarillaWidth < 75){
+    camarillaWidthType = 'Narrow(Breakout/Double Distribution day)'
   }
-  else if(cprWidth > 75 && cprWidth < 140){
-    cprWidthType = 'Moderate(Typical, Exp Typical day)'
+  else if(camarillaWidth > 75 && camarillaWidth < 150){
+    camarillaWidthType = 'Moderate(Typical, Exp Typical day)'
   }
   else{
-    cprWidthType = 'Wide(Trading Range, Sideways day)'
+    camarillaWidthType = 'Wide(Trading Range, Sideways day)'
   }
   return [
     { name: 'Expected Day', 'value': dayType },
-    { name: 'Camarilla width', 'value': cprWidthType }
+    { name: 'Camarilla width', 'value': camarillaWidthType },
+    { name: 'Camarilla width value', 'value': parseFloat(camarillaWidth).toFixed(2) }
   ]
 }
 
