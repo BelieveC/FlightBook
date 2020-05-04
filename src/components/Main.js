@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import FlightCard from './FlightCard'
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { KeyboardDatePicker, DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatDate }  from '../sagas'
@@ -108,9 +108,24 @@ export default function Main() {
                 <Grid container spacing={2} justify="center">
                   <Grid item>
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DatePicker
+                      maxDate={maxDate}
+                      disableToolbars
+                      autoOk
+                      label="Choose Trading Date"
+                      id="date-picker-inline"
+                      clearable
+                      disableFuture
+                      format="MM/dd/yyyy"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                    />
+                  </MuiPickersUtilsProvider>
+                  {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       maxDate={maxDate}
                       disableToolbar
+                      clearable
                       variant="inline"
                       format="MM/dd/yyyy"
                       margin="normal"
@@ -122,7 +137,7 @@ export default function Main() {
                         'aria-label': 'change date',
                       }}
                     />
-                  </MuiPickersUtilsProvider>
+                  </MuiPickersUtilsProvider> */}
                   </Grid>
                 </Grid>
               </div>
