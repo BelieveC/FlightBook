@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects'
 import { takeLatest } from 'redux-saga/effects'
 import { put, call } from 'redux-saga/effects'
 import { ADD_NIFTY_INDEX, ADD_ERROR, INITIAL_LOAD } from './constants'
+import { isTodaySessionOver } from './utils/helper'
 import Api from './api'
 
 export const formatDate = (date) => {
@@ -23,7 +24,6 @@ const formatResult = (data) => {
   {
     var currentDate = new Date(data.t[i]*1000)
     result.push([formatDate(currentDate), { 'open': data.o[i], 'high': data.h[i], 'close': data.c[i], 'low': data.l[i] }])
-    // result[formatDate(currentDate)] = { 'open': data.o[i], 'high': data.h[i], 'close': data.c[i], 'low': data.l[i] }
   }
   return result
 }
@@ -34,6 +34,9 @@ export function* fetchNiftyIndices() {
     var result = formatResult(response)
     var today = formatDate(new Date())
     localStorage.setItem(today, JSON.stringify(result))
+    if(isTodaySessionOver()){
+      localStorage.setItem(`${today}_after_session_reload`, 'true')
+    }
     yield put({ type: ADD_NIFTY_INDEX, payload: result })
   } else {
     yield put({ type: ADD_ERROR, payload: error })

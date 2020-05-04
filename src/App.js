@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
 import { formatDate } from './sagas'
 import { isEmpty } from 'lodash'
+import { isTodaySessionOver } from './utils/helper'
 import Main from './components/Main'
 
 const App = () => {
@@ -25,7 +26,9 @@ const App = () => {
 
   var today = formatDate(new Date())
   var cache = localStorage.getItem(today)
-  if(isEmpty(cache)){
+  var afterSessionReload = localStorage.getItem(`${today}_after_session_reload`)
+  if((isEmpty(afterSessionReload) && isTodaySessionOver()) || isEmpty(cache))
+  {
     store.dispatch({ type: INITIAL_LOAD })
   }
   else{

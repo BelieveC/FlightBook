@@ -16,6 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatDate }  from '../sagas'
 import { ADD_CURRENT_SELECTED_DATE } from '../constants'
+import { isTodaySessionOver } from '../utils/helper'
 
  const Copyright = () => {
   return (
@@ -77,7 +78,10 @@ export default function Main() {
   }
 
   var maxDate = new Date()
-  maxDate.setDate(maxDate.getDate() - 1);
+
+  if(!isTodaySessionOver()){
+    maxDate.setDate(maxDate.getDate() - 1);
+  }
 
   return (
     <div className={classes.root}>
