@@ -18,6 +18,12 @@ export default function FlightCard() {
     'nifty50': useSelector(state => state.nifty),
     'bankNifty': useSelector(state => state.bankNifty)
   }
+
+  const indicesName = {
+    'nifty50': 'Nifty 50',
+    'bankNifty': 'Bank Nifty'
+  }
+
   const currentIndex = isEmpty(currentSelectedIndex) ? [] : indices[currentSelectedIndex]
   const index  = findLastIndex(currentIndex, function(record) { return record[0] === currentSelectedDate; });
   const previousTradingDay = currentIndex[index]
@@ -36,7 +42,7 @@ export default function FlightCard() {
           <div className={classes.messageStyle}>Selected day is a Trading Holiday. Please select another date.</div>
         :
           <>
-            <PreviousDay previousTradingDay={previousTradingDay}/>
+            <PreviousDay previousTradingDay={previousTradingDay} indexName={indicesName[currentSelectedIndex]}/>
             <br/>
             <br/>
             <PivotTwoDayRelation previousTradingDay={previousTradingDay} lastSecondTradingDay={lastSecondTradingDay}/>
