@@ -16,6 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_CURRENT_SELECTED_DATE } from '../constants'
 import { isTodaySessionOver, formatDate } from '../utils/helper'
+import { IndexSelectionDropdown } from './IndexSelectionDropdown'
 
  const Copyright = () => {
   return (
@@ -104,21 +105,24 @@ export default function Main() {
                 Nifty Trading Manual using Secrets of a Pivot Boss
               </Typography>
               <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
+                <Grid container spacing={4} justify="center">
                   <Grid item>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker
-                      maxDate={maxDate}
-                      autoOk
-                      label="Choose Trading Date"
-                      id="date-picker-inline"
-                      clearable
-                      disableFuture
-                      format="MM/dd/yyyy"
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                    />
-                  </MuiPickersUtilsProvider>
+                    <IndexSelectionDropdown/>
+                  </Grid>
+                  <Grid item>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DatePicker
+                        maxDate={maxDate}
+                        autoOk
+                        label="Choose Trading Date"
+                        id="date-picker-inline"
+                        clearable
+                        disableFuture
+                        format="MM/dd/yyyy"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                      />
+                    </MuiPickersUtilsProvider>
                   {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <KeyboardDatePicker
                       maxDate={maxDate}
