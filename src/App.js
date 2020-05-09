@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { INITIAL_LOAD, ADD_NIFTY_INDEX } from './constants'
+import { INITIAL_LOAD, ADD_NIFTY_INDEX, ADD_BANK_NIFTY_INDEX } from './constants'
 import rootSaga from './sagas'
 import reducer from './reducer'
 import { createStore, applyMiddleware } from 'redux'
@@ -25,14 +25,18 @@ const App = () => {
   sagaMiddleware.run(rootSaga)
 
   var today = formatDate(new Date())
-  var cache = localStorage.getItem(today)
+  var nifty50Cache = localStorage.getItem(`${today}_nifty50`)
+  var bankNiftyCache = localStorage.getItem(`${today}_banknifty`)
+
   var afterSessionReload = localStorage.getItem(`${today}_after_session_reload`)
-  if((isEmpty(afterSessionReload) && isTodaySessionOver()) || isEmpty(cache))
+
+  if((isEmpty(afterSessionReload) && isTodaySessionOver()) || isEmpty(nifty50Cache) || isEmpty(bankNiftyCache))
   {
     store.dispatch({ type: INITIAL_LOAD })
   }
   else{
-    store.dispatch({ type: ADD_NIFTY_INDEX, payload: JSON.parse(cache) })
+    store.dispatch({ type: ADD_NIFTY_INDEX, payload: JSON.parse(nifty50Cache) })
+    store.dispatch({ type: ADD_BANK_NIFTY_INDEX, payload: JSON.parse(bankNiftyCache) })
   }
 
   window.store = store

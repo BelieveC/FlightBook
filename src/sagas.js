@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects'
 import { takeLatest } from 'redux-saga/effects'
 import { put, call } from 'redux-saga/effects'
-import { ADD_NIFTY_INDEX, ADD_ERROR, INITIAL_LOAD } from './constants'
+import { ADD_NIFTY_INDEX, ADD_BANK_NIFTY_INDEX, ADD_ERROR, INITIAL_LOAD } from './constants'
 import { isTodaySessionOver } from './utils/helper'
 import Api from './api'
 
@@ -28,12 +28,12 @@ const formatResult = (data) => {
   return result
 }
 
-export function* fetchNiftyIndices() {
-  const { response, error } = yield call(Api.fetchNiftyIndices)
+export function* fetchNifty50() {
+  const { response, error } = yield call(Api.fetchNifty50)
   if (response) {
     var result = formatResult(response)
     var today = formatDate(new Date())
-    localStorage.setItem(today, JSON.stringify(result))
+    localStorage.setItem(`${today}_nifty50`, JSON.stringify(result))
     if(isTodaySessionOver()){
       localStorage.setItem(`${today}_after_session_reload`, 'true')
     }
@@ -43,8 +43,24 @@ export function* fetchNiftyIndices() {
   }
 }
 
+export function* fetchBankNifty() {
+  const { response, error } = yield call(Api.fetchBankNifty)
+  if (response) {
+    var result = formatResult(response)
+    var today = formatDate(new Date())
+    localStorage.setItem(`${today}_banknifty`, JSON.stringify(result))
+    if(isTodaySessionOver()){
+      localStorage.setItem(`${today}_after_session_reload`, 'true')
+    }
+    yield put({ type: ADD_BANK_NIFTY_INDEX, payload: result })
+  } else {
+    yield put({ type: ADD_ERROR, payload: error })
+  }
+}
+
 export function* initialLoad() {
-  yield call(fetchNiftyIndices)
+  yield call(fetchNifty50)
+  yield call(fetchBankNifty)
 }
 
 export function* mainSagas() {
