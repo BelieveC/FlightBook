@@ -6,9 +6,8 @@ import reducer from './reducer'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
-import { formatDate } from './sagas'
 import { isEmpty } from 'lodash'
-import { isTodaySessionOver } from './utils/helper'
+import { isTodaySessionOver, formatDate } from './utils/helper'
 import Main from './components/Main'
 
 const App = () => {

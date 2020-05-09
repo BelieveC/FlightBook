@@ -14,9 +14,8 @@ import FlightCard from './FlightCard'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
-import { formatDate }  from '../sagas'
 import { ADD_CURRENT_SELECTED_DATE } from '../constants'
-import { isTodaySessionOver } from '../utils/helper'
+import { isTodaySessionOver, formatDate } from '../utils/helper'
 
  const Copyright = () => {
   return (
