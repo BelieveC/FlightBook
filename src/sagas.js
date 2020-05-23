@@ -39,7 +39,7 @@ export function* fetchAllNiftyStocks() {
   var result = {}
   for (let index = 0; index < ALL_NIFTY_STOCKS.length; index++) {
     const stockSym = ALL_NIFTY_STOCKS[index];
-    var {response, error} = yield call(Api.fetchNiftyIndices, stockSym)
+    var { response } = yield call(Api.fetchNiftyIndices, stockSym)
     result[stockSym] = formatResult(response)
   }
   var today = formatDate(new Date())
