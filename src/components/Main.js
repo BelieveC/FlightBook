@@ -49,8 +49,10 @@ export default function Main() {
     dispatchDateChange(formatedDate)
   }
 
-  var maxDate = new Date()
+  var minDate = new Date();
+  minDate.setMonth(minDate.getMonth() - 2);
 
+  var maxDate = new Date()
   if(!isTodaySessionOver()){
     maxDate.setDate(maxDate.getDate() - 1);
   }
@@ -76,6 +78,7 @@ export default function Main() {
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DatePicker
                       maxDate={maxDate}
+                      minDate={minDate}
                       autoOk
                       label="Choose Trading Date"
                       id="date-picker-inline"

@@ -14,8 +14,7 @@ const App = () => {
   const sagaMiddleware = createSagaMiddleware()
   const middlewares = [sagaMiddleware]
   if (
-    process.env.NODE_ENV === 'development' &&
-    process.env.REACT_APP_REDUX_LOGGER === 'true'
+    process.env.NODE_ENV === 'development'
   ) {
     const logger = createLogger({ logErrors: true })
     middlewares.push(logger)

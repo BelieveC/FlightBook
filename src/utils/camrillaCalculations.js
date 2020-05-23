@@ -1,10 +1,35 @@
-import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { useStyles, StyledTableRow, StyledTableCell } from './styles'
+const createValueRows = (previousTradingDay) => {
+  const { high, low, close } = previousTradingDay
+  var range = high - low
 
+  // H's
+  var h1 = close + (range * 1.1/12)
+  var h2 = close + (range * 1.1/6)
+  var h3 = close + (range * 1.1/4)
+  var h4 = close + (range * 1.1/2)
+  var h5 = (high/low) * close
+
+  // L's
+  var l1 = close - (range * 1.1/12)
+  var l2 = close - (range * 1.1/6)
+  var l3 = close - (range * 1.1/4)
+  var l4 = close - (range * 1.1/2)
+  var l5 = 2*close - h5
+  
+
+  return [
+    {'name': 'H5(Breakout Target)', 'value': parseFloat(h5).toFixed(2)},
+    {'name': 'H4(Bullish Breakout)', 'value': parseFloat(h4).toFixed(2)},
+    {'name': 'H3(Sell Reversal)', 'value': parseFloat(h3).toFixed(2)},
+    {'name': 'H2', 'value': parseFloat(h2).toFixed(2)},
+    {'name': 'H1', 'value': parseFloat(h1).toFixed(2)},
+    {'name': 'L1', 'value': parseFloat(l1).toFixed(2)},
+    {'name': 'L2', 'value': parseFloat(l2).toFixed(2)},
+    {'name': 'L3(Buy Reversal)', 'value': parseFloat(l3).toFixed(2)},
+    {'name': 'L4(Bearish Breakout)', 'value': parseFloat(l4).toFixed(2)},
+    {'name': 'L5(Breakout Target)', 'value': parseFloat(l5).toFixed(2)}
+  ]
+}
 
 const camarillaValues = (tradingDay) => {
   const { high, low, close } = tradingDay
@@ -22,7 +47,7 @@ const camarillaValues = (tradingDay) => {
   }
 }
 
-const createRows = (previousTradingDay, lastSecondTradingDay) => {
+const createTwoDayRelationShipRows = (previousTradingDay, lastSecondTradingDay) => {
   const previousCamarillaValues = camarillaValues(previousTradingDay)
   const lastSecondCamarillaValues = camarillaValues(lastSecondTradingDay)
   var dayType = 'Not Defined';
@@ -56,8 +81,8 @@ const createRows = (previousTradingDay, lastSecondTradingDay) => {
   var camarillaWidth = previousCamarillaValues.h3 - previousCamarillaValues.l3;
   var camarillaWidthType = 'Not Defined'
 
-  var breakoutWidth = parseFloat((previousTradingDay.close) * 0.008)
-  var moderateWidth = parseFloat((previousTradingDay.close)*0.016)
+  var breakoutWidth = parseFloat((previousTradingDay.close)*0.01)
+  var moderateWidth = parseFloat((previousTradingDay.close)*0.02)
 
   if(camarillaWidth < breakoutWidth){
     camarillaWidthType = 'Narrow(Breakout/Double Distribution day)'
@@ -75,31 +100,9 @@ const createRows = (previousTradingDay, lastSecondTradingDay) => {
   ]
 }
 
-export default function CamarillaTwoDayRelation({ previousTradingDay, lastSecondTradingDay}) {
-  const classes = useStyles();
-
-  const rows = createRows(previousTradingDay[1], lastSecondTradingDay[1])
-  return (
-    <>
-    <div className={classes.headerStyle}>Two day Camarilla based relationship</div>
-    <Table className={classes.table} aria-label="customized table">
-      <TableHead>
-        <TableRow>
-          <StyledTableCell>Reference Name</StyledTableCell>
-          <StyledTableCell align="center">Value</StyledTableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows.map(row => (
-          <StyledTableRow key={row.name}>
-            <StyledTableCell component="th" scope="row">
-              {row.name}
-            </StyledTableCell>
-            <StyledTableCell align="center">{row.value}</StyledTableCell>
-          </StyledTableRow>
-        ))}
-      </TableBody>
-    </Table>
-    </>
-  );
+export const generateCamarillaValues = (previousTradingDay, lastSecondTradingDay) => {
+  return {
+    camarillaValues: createValueRows(previousTradingDay),
+    camarillaTwoDayRelationship: createTwoDayRelationShipRows(previousTradingDay, lastSecondTradingDay)
+  }
 }
