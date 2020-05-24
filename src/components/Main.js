@@ -89,23 +89,6 @@ export default function Main() {
                       onChange={handleDateChange}
                     />
                   </MuiPickersUtilsProvider>
-                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    maxDate={maxDate}
-                    disableToolbar
-                    clearable
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Choose Trading Date"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </MuiPickersUtilsProvider> */}
                 </Grid>
               </Grid>
             </div>
