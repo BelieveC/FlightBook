@@ -114,7 +114,7 @@ const HotStock = ({ buttonName }) => {
   // console.log("Sideways: ", sidewaysAdvanceStocks)
 
   return (
-      isEmpty(allStocks) ? <div>Loading...</div> : 
+      isEmpty(allStocks) ? <div style={{ display: 'inline' }}> Made </div> :
       <div style={{ display: 'inline' }}>
         <span onClick={handleClickOpen}>
           {buttonName}
