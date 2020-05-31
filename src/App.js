@@ -30,6 +30,7 @@ const App = () => {
 
   if((isEmpty(afterSessionReload) && isTodaySessionOver()) || isEmpty(nifty50Cache) || isEmpty(bankNiftyCache))
   {
+    localStorage.clear()
     store.dispatch({ type: INITIAL_LOAD })
   }
   else{

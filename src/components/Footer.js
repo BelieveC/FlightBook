@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Heart from '@material-ui/icons/Favorite';
 import Copyright from './Copyright'
 import { makeStyles } from '@material-ui/core';
+import HotStock from './HotStock';
 
 const useStyles = makeStyles((theme) => ({
   footerIcon: {
@@ -22,7 +23,7 @@ const Footer = () =>
   return(
     <footer className={classes.footer}>
       <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-        Made with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
+       <HotStock buttonName={'Made'}/> with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
       </Typography>
       <Copyright />
     </footer>
