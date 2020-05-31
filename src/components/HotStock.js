@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { useSelector } from 'react-redux';
-import { keys } from 'lodash'
+import { keys, isEmpty } from 'lodash'
 import Chips from './Chips';
  
 const styles = (theme) => ({
@@ -54,86 +54,89 @@ const HotStock = ({ buttonName }) => {
   };
 
   const allStocks = useSelector(state => state.allNiftyStocks)
-
-  const dateIndex = allStocks["ADANIPORTS.NS"].length - 1
-  const allKeys = keys(allStocks)
-
-  const sidewaysStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
-  const breakoutStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
-  const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
-
   let breakoutAdvanceStocks = []
-  breakoutStocks.map(stock => {
-    let count = 0
-    for (let index = dateIndex; index > dateIndex - 3; index--) {
-      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
-        count += 1
-      }
-      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
-        count += 0.5
-      }
-    }
-    breakoutAdvanceStocks.push({stockName: stock, strength: count})
-    return true
-  })
-
   let moderateAdvanceStocks = []
-  moderateStocks.map(stock => {
-    let count = 0
-    for (let index = dateIndex; index > dateIndex - 3; index--) {
-      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
-        count += 1
-      }
-      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
-        count += 0.5
-      }
-    }
-    moderateAdvanceStocks.push({stockName: stock, strength: count})
-    return true
-  })
-
   let sidewaysAdvanceStocks = []
-  sidewaysStocks.map(stock => {
-    let count = 0
-    for (let index = dateIndex; index > dateIndex - 3; index--) {
-      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
-        count += 1
+
+  if(!isEmpty(allStocks)){
+    const dateIndex = allStocks["ADANIPORTS.NS"].length - 1
+    const allKeys = keys(allStocks)
+  
+    const sidewaysStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
+    const breakoutStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
+    const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
+  
+    breakoutStocks.map(stock => {
+      let count = 0
+      for (let index = dateIndex; index > dateIndex - 3; index--) {
+        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+          count += 1
+        }
+        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+          count += 0.5
+        }
       }
-      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
-        count -= 0.5
+      breakoutAdvanceStocks.push({stockName: stock, strength: count})
+      return true
+    })
+  
+    moderateStocks.map(stock => {
+      let count = 0
+      for (let index = dateIndex; index > dateIndex - 3; index--) {
+        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+          count += 1
+        }
+        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+          count += 0.5
+        }
       }
-    }
-    sidewaysAdvanceStocks.push({stockName: stock, strength: count})
-    return true
-  })
+      moderateAdvanceStocks.push({stockName: stock, strength: count})
+      return true
+    })
+  
+    sidewaysStocks.map(stock => {
+      let count = 0
+      for (let index = dateIndex; index > dateIndex - 3; index--) {
+        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+          count += 1
+        }
+        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+          count -= 0.5
+        }
+      }
+      sidewaysAdvanceStocks.push({stockName: stock, strength: count})
+      return true
+    })
+  }
 
   // console.log("Breakout: ", breakoutAdvanceStocks)
   // console.log("Moderate: ", moderateAdvanceStocks)
   // console.log("Sideways: ", sidewaysAdvanceStocks)
 
   return (
-    <div style={{ display: 'inline' }}>
-      <span onClick={handleClickOpen}>
-        {buttonName}
-      </span>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Hot Stocks
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography variant="h6" color="primary">Breakout Stocks</Typography>
-          <Chips stocks={breakoutAdvanceStocks} stockType={"primary"}/>
-        </DialogContent>
-        <DialogContent dividers>
-          <Typography variant="h6" color="primary">Moderate Stocks</Typography>
-          <Chips stocks={moderateAdvanceStocks} stockType={"default"}/>
-        </DialogContent>
-        <DialogContent dividers>
-          <Typography variant="h6" color="primary">Sideways Stocks</Typography>
-          <Chips stocks={sidewaysAdvanceStocks} stockType={"secondary"}/>
-        </DialogContent>
-      </Dialog>
-    </div>
+      isEmpty(allStocks) ? <div>Loading...</div> : 
+      <div style={{ display: 'inline' }}>
+        <span onClick={handleClickOpen}>
+          {buttonName}
+        </span>
+        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+          <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+            Hot Stocks
+          </DialogTitle>
+          <DialogContent dividers>
+            <Typography variant="h6" color="primary">Breakout Stocks</Typography>
+            <Chips stocks={breakoutAdvanceStocks} stockType={"primary"}/>
+          </DialogContent>
+          <DialogContent dividers>
+            <Typography variant="h6" color="primary">Moderate Stocks</Typography>
+            <Chips stocks={moderateAdvanceStocks} stockType={"default"}/>
+          </DialogContent>
+          <DialogContent dividers>
+            <Typography variant="h6" color="primary">Sideways Stocks</Typography>
+            <Chips stocks={sidewaysAdvanceStocks} stockType={"secondary"}/>
+          </DialogContent>
+        </Dialog>
+      </div>
   );
 }
 
