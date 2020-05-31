@@ -53,14 +53,63 @@ const HotStock = ({ buttonName }) => {
     setOpen(false);
   };
 
-const allStocks = useSelector(state => state.allNiftyStocks)
+  const allStocks = useSelector(state => state.allNiftyStocks)
 
-const dateIndex = allStocks["ADANIPORTS.NS"].length - 1
-const allKeys = keys(allStocks)
+  const dateIndex = allStocks["ADANIPORTS.NS"].length - 1
+  const allKeys = keys(allStocks)
 
-const sidewaysStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
-const breakoutStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
-const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
+  const sidewaysStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
+  const breakoutStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
+  const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
+
+  let breakoutAdvanceStocks = []
+  breakoutStocks.map(stock => {
+    let count = 0
+    for (let index = dateIndex; index > dateIndex - 3; index--) {
+      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+        count += 1
+      }
+      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+        count += 0.5
+      }
+    }
+    breakoutAdvanceStocks.push({stockName: stock, strength: count})
+    return true
+  })
+
+  let moderateAdvanceStocks = []
+  moderateStocks.map(stock => {
+    let count = 0
+    for (let index = dateIndex; index > dateIndex - 3; index--) {
+      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+        count += 1
+      }
+      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+        count += 0.5
+      }
+    }
+    moderateAdvanceStocks.push({stockName: stock, strength: count})
+    return true
+  })
+
+  let sidewaysAdvanceStocks = []
+  sidewaysStocks.map(stock => {
+    let count = 0
+    for (let index = dateIndex; index > dateIndex - 3; index--) {
+      if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+        count += 1
+      }
+      else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+        count -= 0.5
+      }
+    }
+    sidewaysAdvanceStocks.push({stockName: stock, strength: count})
+    return true
+  })
+
+  // console.log("Breakout: ", breakoutAdvanceStocks)
+  // console.log("Moderate: ", moderateAdvanceStocks)
+  // console.log("Sideways: ", sidewaysAdvanceStocks)
 
   return (
     <div style={{ display: 'inline' }}>
@@ -73,15 +122,15 @@ const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoD
         </DialogTitle>
         <DialogContent dividers>
           <Typography variant="h6" color="primary">Breakout Stocks</Typography>
-          <Chips stocks={breakoutStocks} stockType={"primary"}/>
+          <Chips stocks={breakoutAdvanceStocks} stockType={"primary"}/>
         </DialogContent>
         <DialogContent dividers>
           <Typography variant="h6" color="primary">Moderate Stocks</Typography>
-          <Chips stocks={moderateStocks} stockType={"default"}/>
+          <Chips stocks={moderateAdvanceStocks} stockType={"default"}/>
         </DialogContent>
         <DialogContent dividers>
           <Typography variant="h6" color="primary">Sideways Stocks</Typography>
-          <Chips stocks={sidewaysStocks} stockType={"secondary"}/>
+          <Chips stocks={sidewaysAdvanceStocks} stockType={"secondary"}/>
         </DialogContent>
       </Dialog>
     </div>

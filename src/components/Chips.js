@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import Chip from '@material-ui/core/Chip';
+import { Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +23,11 @@ const Chips = ({stocks, stockType}) => {
       {
         stocks.map(stock => (
           <Chip
-            avatar={<ShowChartIcon/>}
-            label={stock}
+            key={stock.stockName}
+            avatar={<Avatar>{stock.strength}</Avatar>}
+            label={stock.stockName}
             color={stockType}
+            deleteIcon={<ShowChartIcon/>}
           />
         ))
       }
