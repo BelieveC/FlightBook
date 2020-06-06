@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ShowChartIcon from '@material-ui/icons/ShowChart';
 import Chip from '@material-ui/core/Chip';
 import { Avatar } from '@material-ui/core';
 
@@ -24,10 +23,10 @@ const Chips = ({stocks, stockType}) => {
         stocks.map(stock => (
           <Chip
             key={stock.stockName}
-            avatar={<Avatar>{stock.strength}</Avatar>}
-            label={stock.stockName}
+            avatar={<Avatar sizes="large">{stock.strength}</Avatar>}
+            label={`${stock.stockName}(${stock.buyCount})`}
             color={stockType}
-            deleteIcon={<ShowChartIcon/>}
+            variant="outlined"
           />
         ))
       }

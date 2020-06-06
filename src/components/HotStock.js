@@ -68,7 +68,7 @@ const HotStock = ({ buttonName }) => {
   
     breakoutStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 3; index--) {
+      for (let index = dateIndex; index > dateIndex - 5; index--) {
         if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
           count += 1
         }
@@ -76,13 +76,14 @@ const HotStock = ({ buttonName }) => {
           count += 0.5
         }
       }
-      breakoutAdvanceStocks.push({stockName: stock, strength: count})
+      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      breakoutAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })
   
     moderateStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 3; index--) {
+      for (let index = dateIndex; index > dateIndex - 5; index--) {
         if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
           count += 1
         }
@@ -90,13 +91,14 @@ const HotStock = ({ buttonName }) => {
           count += 0.5
         }
       }
-      moderateAdvanceStocks.push({stockName: stock, strength: count})
+      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      moderateAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })
   
     sidewaysStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 3; index--) {
+      for (let index = dateIndex; index > dateIndex - 5; index--) {
         if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
           count += 1
         }
@@ -104,7 +106,8 @@ const HotStock = ({ buttonName }) => {
           count -= 0.5
         }
       }
-      sidewaysAdvanceStocks.push({stockName: stock, strength: count})
+      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      sidewaysAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })
   }
@@ -132,7 +135,7 @@ const HotStock = ({ buttonName }) => {
             <Chips stocks={moderateAdvanceStocks} stockType={"default"}/>
           </DialogContent>
           <DialogContent dividers>
-            <Typography variant="h6" color="primary">Sideways Stocks</Typography>
+            <Typography variant="h6" color="primary">Sideways/Trending Stocks</Typography>
             <Chips stocks={sidewaysAdvanceStocks} stockType={"secondary"}/>
           </DialogContent>
         </Dialog>
