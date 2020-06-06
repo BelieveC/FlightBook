@@ -122,7 +122,7 @@ const HotStock = ({ buttonName }) => {
         <span onClick={handleClickOpen}>
           {buttonName}
         </span>
-        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} maxWidth="md">
           <DialogTitle id="customized-dialog-title" onClose={handleClose}>
             Hot Stocks
           </DialogTitle>
