@@ -1,6 +1,6 @@
 # `Flight Book`
 
-Built in 2022. Nifty Trading Manual using Secrets of Pivot Boss rules. These relationships give you directional bias and allow you to anticipate potential market behavior for the upcoming session.
+Built in 2024. Nifty Trading Manual using Secrets of Pivot Boss rules. These relationships give you directional bias and allow you to anticipate potential market behavior for the upcoming session.
 
 ### Setup
 
