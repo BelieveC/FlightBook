@@ -25,6 +25,7 @@ export const IndexSelectionDropdown = () =>
   const dispatch = useDispatch();
   var tmpIndex = useSelector(state => state.currentSelectedIndex)
   const selectedIndex = isEmpty(tmpIndex)? '' : tmpIndex
+  const selectedMarket = useSelector(state => state.selectedMarket)
 
   const dispatchIndexChange = (payload) => dispatch({ type: ADD_CURRENT_SELECTED_INDEX, payload})
 
@@ -43,8 +44,13 @@ export const IndexSelectionDropdown = () =>
         label="Nifty Index"
       >
         <MenuItem value=''><em>Select</em></MenuItem>
-        <MenuItem value={'nifty50'}>Nifty 50</MenuItem>
-        <MenuItem value={'bankNifty'}>Bank Nifty</MenuItem>
+        {selectedMarket === 'US' ? [
+          <MenuItem key="nasdaq" value={'nasdaq'}>NASDAQ</MenuItem>,
+          <MenuItem key="sp500" value={'sp500'}>S&P 500</MenuItem>
+        ] : [
+          <MenuItem key="nifty50" value={'nifty50'}>Nifty 50</MenuItem>,
+          <MenuItem key="banknifty" value={'bankNifty'}>Bank Nifty</MenuItem>
+        ]}
       </Select>
     </FormControl>
   )

@@ -13,15 +13,20 @@ import { useStyles } from './styles'
 export default function FlightCard() {
   const currentSelectedDate = useSelector(state => state.currentSelectedDate)
   const currentSelectedIndex = useSelector(state => state.currentSelectedIndex)
+  const selectedMarket = useSelector(state => state.selectedMarket)
 
   const indices = {
     'nifty50': useSelector(state => state.nifty),
-    'bankNifty': useSelector(state => state.bankNifty)
+    'bankNifty': useSelector(state => state.bankNifty),
+    'nasdaq': useSelector(state => state.nasdaq),
+    'sp500': useSelector(state => state.sp500)
   }
 
   const indicesName = {
     'nifty50': 'Nifty 50',
-    'bankNifty': 'Bank Nifty'
+    'bankNifty': 'Bank Nifty',
+    'nasdaq': 'NASDAQ',
+    'sp500': 'S&P 500'
   }
 
   const currentIndex = isEmpty(currentSelectedIndex) ? [] : indices[currentSelectedIndex]
