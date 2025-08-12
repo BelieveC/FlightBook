@@ -6,7 +6,8 @@
       "Bash(git push:*)",
       "mcp__playwright__browser_navigate",
       "Bash(grep:*)",
-      "Bash(yarn add:*)"
+      "Bash(yarn add:*)",
+      "mcp__playwright__browser_wait_for"
     ],
     "deny": [],
     "ask": []
