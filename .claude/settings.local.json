@@ -5,7 +5,8 @@
       "Bash(git add:*)",
       "Bash(git push:*)",
       "mcp__playwright__browser_navigate",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(yarn add:*)"
     ],
     "deny": [],
     "ask": []
