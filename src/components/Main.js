@@ -58,6 +58,42 @@ const useStyles = makeStyles((theme) => ({
   },
   tabPanel: {
     padding: theme.spacing(2, 0),
+  },
+  coolTitle: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    textFillColor: 'transparent',
+    fontWeight: 'bold',
+    fontSize: '4rem',
+    textShadow: '0 0 30px rgba(102, 126, 234, 0.5)',
+    animation: '$pulse 2s ease-in-out infinite',
+    position: 'relative',
+    display: 'inline-block',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'inherit',
+      filter: 'blur(10px)',
+      opacity: 0.5,
+      zIndex: -1,
+    }
+  },
+  '@keyframes pulse': {
+    '0%': {
+      transform: 'scale(1)',
+    },
+    '50%': {
+      transform: 'scale(1.05)',
+    },
+    '100%': {
+      transform: 'scale(1)',
+    }
   }
 }));
 
@@ -118,8 +154,8 @@ export default function Main() {
         </Box>
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Flight Book
+            <Typography component="h1" variant="h2" align="center" gutterBottom className={classes.coolTitle}>
+              ✈️ Flight Book
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
               {selectedMarket === 'US' 
