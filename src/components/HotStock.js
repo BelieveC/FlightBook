@@ -58,55 +58,97 @@ const HotStock = ({ buttonName }) => {
   let moderateAdvanceStocks = []
   let sidewaysAdvanceStocks = []
 
-  if(!isEmpty(allStocks)){
+  if(!isEmpty(allStocks) && allStocks["ADANIPORTS.NS"] && allStocks["ADANIPORTS.NS"].length > 0){
     const dateIndex = allStocks["ADANIPORTS.NS"].length - 1
     const allKeys = keys(allStocks)
   
-    const sidewaysStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
-    const breakoutStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
-    const moderateStocks = allKeys.filter(key => allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
+    const sidewaysStocks = allKeys.filter(key => 
+      allStocks[key] && allStocks[key][dateIndex] && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1] &&
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)")
+    const breakoutStocks = allKeys.filter(key => 
+      allStocks[key] && allStocks[key][dateIndex] && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1] &&
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)")
+    const moderateStocks = allKeys.filter(key => 
+      allStocks[key] && allStocks[key][dateIndex] && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship && 
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1] &&
+      allStocks[key][dateIndex].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)")
   
     breakoutStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 5; index--) {
-        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+      for (let index = dateIndex; index > Math.max(0, dateIndex - 5); index--) {
+        if(allStocks[stock] && allStocks[stock][index] && 
+           allStocks[stock][index].pivotTwoDayRelationship && 
+           allStocks[stock][index].pivotTwoDayRelationship[1] &&
+           allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
           count += 1
         }
-        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+        else if(allStocks[stock] && allStocks[stock][index] && 
+                allStocks[stock][index].pivotTwoDayRelationship && 
+                allStocks[stock][index].pivotTwoDayRelationship[1] &&
+                allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
           count += 0.5
         }
       }
-      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      let buyCount = 0
+      if(allStocks[stock] && allStocks[stock][dateIndex] && 
+         allStocks[stock][dateIndex][1] && allStocks[stock][dateIndex][1].close) {
+        buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      }
       breakoutAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })
   
     moderateStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 5; index--) {
-        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
+      for (let index = dateIndex; index > Math.max(0, dateIndex - 5); index--) {
+        if(allStocks[stock] && allStocks[stock][index] && 
+           allStocks[stock][index].pivotTwoDayRelationship && 
+           allStocks[stock][index].pivotTwoDayRelationship[1] &&
+           allStocks[stock][index].pivotTwoDayRelationship[1].value === "Moderate(Typical, Exp Typical day)"){
           count += 1
         }
-        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+        else if(allStocks[stock] && allStocks[stock][index] && 
+                allStocks[stock][index].pivotTwoDayRelationship && 
+                allStocks[stock][index].pivotTwoDayRelationship[1] &&
+                allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
           count += 0.5
         }
       }
-      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      let buyCount = 0
+      if(allStocks[stock] && allStocks[stock][dateIndex] && 
+         allStocks[stock][dateIndex][1] && allStocks[stock][dateIndex][1].close) {
+        buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      }
       moderateAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })
   
     sidewaysStocks.map(stock => {
       let count = 0
-      for (let index = dateIndex; index > dateIndex - 5; index--) {
-        if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
+      for (let index = dateIndex; index > Math.max(0, dateIndex - 5); index--) {
+        if(allStocks[stock] && allStocks[stock][index] && 
+           allStocks[stock][index].pivotTwoDayRelationship && 
+           allStocks[stock][index].pivotTwoDayRelationship[1] &&
+           allStocks[stock][index].pivotTwoDayRelationship[1].value === "Wide(Trading Range, Sideways day)"){
           count += 1
         }
-        else if(allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
+        else if(allStocks[stock] && allStocks[stock][index] && 
+                allStocks[stock][index].pivotTwoDayRelationship && 
+                allStocks[stock][index].pivotTwoDayRelationship[1] &&
+                allStocks[stock][index].pivotTwoDayRelationship[1].value === "Narrow(Breakout/Double Distribution Day)"){
           count -= 0.5
         }
       }
-      let buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      let buyCount = 0
+      if(allStocks[stock] && allStocks[stock][dateIndex] && 
+         allStocks[stock][dateIndex][1] && allStocks[stock][dateIndex][1].close) {
+        buyCount = parseInt(45000/allStocks[stock][dateIndex][1].close).toFixed(0)
+      }
       sidewaysAdvanceStocks.push({stockName: stock, strength: count, buyCount: buyCount})
       return true
     })

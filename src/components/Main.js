@@ -8,6 +8,9 @@ import FlightCard from './FlightCard'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 import { ADD_CURRENT_SELECTED_DATE } from '../constants'
 import { isTodaySessionOver, formatDate } from '../utils/helper'
 import { IndexSelectionDropdown } from './IndexSelectionDropdown'
@@ -33,6 +36,18 @@ const useStyles = makeStyles((theme) => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '200px',
+    padding: theme.spacing(4),
+  },
+  errorContainer: {
+    padding: theme.spacing(4),
+    maxWidth: '600px',
+    margin: '0 auto',
   }
 }));
 
@@ -41,6 +56,8 @@ export default function Main() {
   const dispatch = useDispatch();
 
   const selectedDate = useSelector(state => state.currentSelectedDate)
+  const loading = useSelector(state => state.loading)
+  const error = useSelector(state => state.error)
 
   const dispatchDateChange = (payload) => dispatch({ type: ADD_CURRENT_SELECTED_DATE, payload})
 
@@ -96,9 +113,30 @@ export default function Main() {
         </div>
         <hr/>
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            <FlightCard/>
-          </Grid>
+          {loading ? (
+            <div className={classes.loadingContainer}>
+              <CircularProgress size={60} />
+            </div>
+          ) : error ? (
+            <div className={classes.errorContainer}>
+              <Alert severity="error">
+                <AlertTitle>Error Loading Market Data</AlertTitle>
+                {error.message || 'Failed to load market data. Please check your API key and try again.'}
+                <br />
+                <br />
+                <strong>To fix this:</strong>
+                <ol style={{ marginTop: '8px' }}>
+                  <li>Get a free API key from <a href="https://finnhub.io/" target="_blank" rel="noopener noreferrer">finnhub.io</a></li>
+                  <li>Add it to the .env.development file: REACT_APP_ACCESS_TOKEN=your_key_here</li>
+                  <li>Restart the development server</li>
+                </ol>
+              </Alert>
+            </div>
+          ) : (
+            <Grid container spacing={4}>
+              <FlightCard/>
+            </Grid>
+          )}
         </Container>
       </main>
       <Footer/>

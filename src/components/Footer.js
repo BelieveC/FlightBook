@@ -22,7 +22,7 @@ const Footer = () =>
   const classes = useStyles()
   return(
     <footer className={classes.footer}>
-      <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+      <Typography variant="subtitle1" align="center" color="textSecondary" component="div">
        <HotStock buttonName={'Made'}/> with <Heart className={classes.footerIcon}/> by <Link color="inherit" href="http://github.com/believeC"> BelieveC </Link>
       </Typography>
       <Copyright />
