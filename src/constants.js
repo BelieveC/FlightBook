@@ -63,38 +63,13 @@ export const ALL_NIFTY_STOCKS = [
   "ULTRACEMCO.NS",
   "VEDL.NS",
   "WIPRO.NS",
-  "ZEEL.NS"
+  "RELIANCE.NS",
+  "TCS.NS",
+  "HDFCBANK.NS",
+  "INFY.NS",
+  "ICICIBANK.NS"
 ]
 
 export const ALL_US_STOCKS = [
-  "AAPL",   // Apple
-  "MSFT",   // Microsoft
-  "GOOGL",  // Alphabet Class A
-  "AMZN",   // Amazon
-  "NVDA",   // NVIDIA
-  "META",   // Meta Platforms
-  "TSLA",   // Tesla
-  "BRK.B",  // Berkshire Hathaway Class B
-  "JPM",    // JPMorgan Chase
-  "V",      // Visa
-  "JNJ",    // Johnson & Johnson
-  "WMT",    // Walmart
-  "PG",     // Procter & Gamble
-  "MA",     // Mastercard
-  "UNH",    // UnitedHealth
-  "HD",     // Home Depot
-  "DIS",    // Disney
-  "BAC",    // Bank of America
-  "ADBE",   // Adobe
-  "CRM",    // Salesforce
-  "NFLX",   // Netflix
-  "PFE",    // Pfizer
-  "CSCO",   // Cisco
-  "INTC",   // Intel
-  "ORCL",   // Oracle
-  "AMD",    // Advanced Micro Devices
-  "PYPL",   // PayPal
-  "IBM",    // IBM
-  "GS",     // Goldman Sachs
-  "QCOM"    // Qualcomm
+  "AAPL"   // Apple - Testing with just one stock
 ]

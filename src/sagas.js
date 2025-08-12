@@ -8,6 +8,7 @@ import {
 } from './constants'
 import { isTodaySessionOver, formatDate, formatResult } from './utils/helper'
 import Api from './api'
+import { delay } from 'redux-saga/effects'
 
 export function* fetchNifty50() {
   const { response, error } = yield call(Api.fetchNiftyIndices, 'NIFTY.NS')
@@ -68,6 +69,12 @@ export function* fetchAllUSStocks() {
   var hasErrors = false
   for (let index = 0; index < ALL_US_STOCKS.length; index++) {
     const stockSym = ALL_US_STOCKS[index];
+    
+    // Add delay to avoid rate limiting (Alpha Vantage allows 5 calls per minute)
+    if (index > 0 && index % 4 === 0) {
+      yield delay(13000); // Wait 13 seconds after every 4 calls
+    }
+    
     var { response, error } = yield call(Api.fetchNiftyIndices, stockSym)
     if (response) {
       result[stockSym] = formatResult(response)
@@ -91,6 +98,12 @@ export function* fetchAllNiftyStocks() {
   var hasErrors = false
   for (let index = 0; index < ALL_NIFTY_STOCKS.length; index++) {
     const stockSym = ALL_NIFTY_STOCKS[index];
+    
+    // Add delay to avoid rate limiting (Alpha Vantage allows 5 calls per minute)
+    if (index > 0 && index % 4 === 0) {
+      yield delay(13000); // Wait 13 seconds after every 4 calls
+    }
+    
     var { response, error } = yield call(Api.fetchNiftyIndices, stockSym)
     if (response) {
       result[stockSym] = formatResult(response)
