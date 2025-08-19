@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .cursor/
+.playwright-mcp/
 .claude/
 # testing
 /coverage

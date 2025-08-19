@@ -8,7 +8,8 @@
       "Bash(grep:*)",
       "Bash(yarn add:*)",
       "mcp__playwright__browser_wait_for",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_take_screenshot"
     ],
     "deny": [],
     "ask": []

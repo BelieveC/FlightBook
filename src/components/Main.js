@@ -58,6 +58,34 @@ const useStyles = makeStyles((theme) => ({
   },
   tabPanel: {
     padding: theme.spacing(2, 0),
+  },
+  elegantTitle: {
+    fontFamily: '"Playfair Display", "Georgia", serif',
+    fontWeight: 700,
+    fontSize: 'clamp(2.5rem, 8vw, 4rem)',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    textAlign: 'center',
+    letterSpacing: '-0.02em',
+    lineHeight: 1.1,
+    marginBottom: theme.spacing(2),
+    position: 'relative',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: '50%',
+      bottom: '-8px',
+      transform: 'translateX(-50%)',
+      width: '60px',
+      height: '3px',
+      background: 'linear-gradient(90deg, #667eea, #764ba2)',
+      borderRadius: '2px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '2.5rem',
+    }
   }
 }));
 
@@ -118,7 +146,7 @@ export default function Main() {
         </Box>
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            <Typography component="h1" className={classes.elegantTitle}>
               Flight Book
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>

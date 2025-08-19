@@ -9,6 +9,20 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
+  },
+  elegantHeaderTitle: {
+    fontFamily: '"Playfair Display", "Georgia", serif',
+    fontWeight: 700,
+    fontSize: '1.5rem',
+    background: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    letterSpacing: '-0.01em',
+    lineHeight: 1.2,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1.25rem',
+    }
   }
 }));
 
@@ -21,7 +35,7 @@ const Header = () => {
       <AppBar position="relative">
         <Toolbar>
           <Flight className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" className={classes.elegantHeaderTitle} noWrap>
             Flight Book
           </Typography>
         </Toolbar>
