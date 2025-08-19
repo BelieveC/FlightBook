@@ -1,80 +1,118 @@
 import Ajax from './utils/Ajax'
 
-const Api = {
-  fetchNiftyIndices(indexSymbol) {
-    // Alpha Vantage uses different symbols for indices
-    // Convert index symbols to Alpha Vantage format
-    let alphaSymbol = indexSymbol;
-    
-    // Map index symbols
-    if (indexSymbol === '^IXIC') {
-      // NASDAQ Composite - use QQQ ETF as proxy
-      alphaSymbol = 'QQQ';
-    } else if (indexSymbol === '^GSPC') {
-      // S&P 500 - use SPY ETF as proxy
-      alphaSymbol = 'SPY';
-    } else if (indexSymbol === 'NIFTY.NS') {
-      // Nifty 50 - Alpha Vantage doesn't support NSE indices directly
-      // We'll use a workaround or placeholder
-      alphaSymbol = 'NIFTY50.BSE';
-    } else if (indexSymbol === 'BANKNIFTY.NS') {
-      // Bank Nifty
-      alphaSymbol = 'BANKNIFTY.BSE';
-    } else if (indexSymbol.endsWith('.NS')) {
-      // Indian stocks - remove .NS suffix and add .BSE
-      alphaSymbol = indexSymbol.replace('.NS', '.BSE');
+const SYMBOL_MAPPING = {
+  '^IXIC': 'QQQ',
+  '^GSPC': 'SPY',
+  'NIFTY.NS': 'NIFTY50.BSE',
+  'BANKNIFTY.NS': 'BANKNIFTY.BSE'
+}
+
+const ALPHA_VANTAGE_FIELDS = {
+  OPEN: '1. open',
+  HIGH: '2. high',
+  LOW: '3. low',
+  CLOSE: '4. close',
+  VOLUME: '5. volume'
+}
+
+const TRADING_DAYS_LIMIT = 60
+
+class ApiClient {
+  constructor() {
+    this.apiKey = process.env.REACT_APP_ALPHA_VANTAGE_KEY
+    this.baseUrl = 'https://www.alphavantage.co/query'
+  }
+
+  validateApiKey() {
+    if (!this.apiKey) {
+      throw new Error('Alpha Vantage API key is not configured')
+    }
+  }
+
+  transformSymbol(indexSymbol) {
+    if (!indexSymbol) {
+      throw new Error('Symbol is required')
+    }
+
+    if (SYMBOL_MAPPING[indexSymbol]) {
+      return SYMBOL_MAPPING[indexSymbol]
+    }
+
+    if (indexSymbol.endsWith('.NS')) {
+      return indexSymbol.replace('.NS', '.BSE')
+    }
+
+    return indexSymbol
+  }
+
+  buildUrl(symbol) {
+    return `${this.baseUrl}?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=compact&apikey=${this.apiKey}`
+  }
+
+  validateApiResponse(response) {
+    if (response['Error Message']) {
+      throw new Error(response['Error Message'])
     }
     
-    // Alpha Vantage TIME_SERIES_DAILY endpoint
-    const apiKey = process.env.REACT_APP_ALPHA_VANTAGE_KEY;
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${alphaSymbol}&outputsize=compact&apikey=${apiKey}`;
+    if (response['Note']) {
+      throw new Error('API call frequency limit reached')
+    }
+
+    const timeSeries = response['Time Series (Daily)']
+    if (!timeSeries) {
+      throw new Error('No time series data available')
+    }
+
+    return timeSeries
+  }
+
+  transformToFinnhubFormat(timeSeries) {
+    const dates = Object.keys(timeSeries).sort()
+    const recentDates = dates.slice(-TRADING_DAYS_LIMIT)
     
-    return Ajax.get(url)
-      .then(response => {
-        // Transform Alpha Vantage response to match expected format
-        if (response['Error Message'] || response['Note']) {
-          throw new Error(response['Error Message'] || 'API call frequency limit reached');
-        }
-        
-        const timeSeries = response['Time Series (Daily)'];
-        if (!timeSeries) {
-          throw new Error('No data available for symbol: ' + indexSymbol);
-        }
-        
-        // Convert to Finnhub-like format
-        const dates = Object.keys(timeSeries).sort();
-        const result = {
-          c: [], // close prices
-          h: [], // high prices
-          l: [], // low prices
-          o: [], // open prices
-          t: [], // timestamps
-          v: [], // volumes
-          s: 'ok'
-        };
-        
-        // Get last 60 trading days (approximately 2 months)
-        const recentDates = dates.slice(-60);
-        
-        recentDates.forEach(date => {
-          const dayData = timeSeries[date];
-          const timestamp = new Date(date).getTime() / 1000;
-          
-          result.c.push(parseFloat(dayData['4. close']));
-          result.h.push(parseFloat(dayData['2. high']));
-          result.l.push(parseFloat(dayData['3. low']));
-          result.o.push(parseFloat(dayData['1. open']));
-          result.t.push(timestamp);
-          result.v.push(parseInt(dayData['5. volume'] || 0));
-        });
-        
-        return { response: result };
-      })
-      .catch(error => {
-        console.error('API Error:', error);
-        return { error: error.message || 'Failed to fetch data' };
-      });
+    const result = {
+      c: [],
+      h: [],
+      l: [],
+      o: [],
+      t: [],
+      v: [],
+      s: 'ok'
+    }
+
+    recentDates.forEach(date => {
+      const dayData = timeSeries[date]
+      const timestamp = new Date(date).getTime() / 1000
+      
+      result.c.push(parseFloat(dayData[ALPHA_VANTAGE_FIELDS.CLOSE]))
+      result.h.push(parseFloat(dayData[ALPHA_VANTAGE_FIELDS.HIGH]))
+      result.l.push(parseFloat(dayData[ALPHA_VANTAGE_FIELDS.LOW]))
+      result.o.push(parseFloat(dayData[ALPHA_VANTAGE_FIELDS.OPEN]))
+      result.t.push(timestamp)
+      result.v.push(parseInt(dayData[ALPHA_VANTAGE_FIELDS.VOLUME] || 0))
+    })
+
+    return result
+  }
+
+  async fetchNiftyIndices(indexSymbol) {
+    try {
+      this.validateApiKey()
+      const alphaSymbol = this.transformSymbol(indexSymbol)
+      const url = this.buildUrl(alphaSymbol)
+      
+      const response = await Ajax.get(url)
+      const timeSeries = this.validateApiResponse(response)
+      const transformedData = this.transformToFinnhubFormat(timeSeries)
+      
+      return { response: transformedData }
+    } catch (error) {
+      console.error(`API Error for symbol ${indexSymbol}:`, error)
+      return { error: error.message || 'Failed to fetch data' }
+    }
   }
 }
+
+const Api = new ApiClient()
 
 export default Api
